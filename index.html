@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <title>SkyCast — Beautiful Weather</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="preconnect" href="https://api.open-meteo.com">
+  <link rel="preconnect" href="https://geocoding-api.open-meteo.com">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">☁</span>
+      <h1>SkyCast</h1>
+    </div>
+
+    <div class="header-actions">
+      <button id="use-location" class="btn ghost" title="Use my location" aria-label="Use my location">📍</button>
+      <div class="unit-toggle" role="group" aria-label="Temperature units">
+        <button id="unit-c" class="btn toggle active" data-unit="C" aria-pressed="true">°C</button>
+        <button id="unit-f" class="btn toggle" data-unit="F" aria-pressed="false">°F</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="searchbar" role="search">
+    <div class="searchbox">
+      <input id="search" type="text" inputmode="search" autocomplete="off"
+             placeholder="Search city or place… (e.g., Colombo, Kandy, Jaffna)"
+             aria-label="Search city or place" aria-autocomplete="list" aria-controls="suggestions" />
+      <button id="clear-search" class="btn ghost" aria-label="Clear search">✖</button>
+    </div>
+    <ul id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions"></ul>
+  </section>
+
+  <main id="main" class="container" role="main">
+    <div id="status-banner" class="banner" aria-live="polite" hidden></div>
+
+    <section id="current" class="card current">
+      <div class="current-left">
+        <div class="place">
+          <h2 id="place-name" class="truncate">—</h2>
+          <p id="updated-at" class="muted">Loading…</p>
+        </div>
+        <div class="temp-wrap">
+          <div id="current-icon" class="big-emoji" aria-hidden="true">⛅</div>
+          <div>
+            <div id="current-temp" class="temp-big skeleton">--°</div>
+            <div id="current-desc" class="muted">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="current-right">
+        <ul class="metrics">
+          <li><span>Feels like</span><strong id="feels-like" class="skeleton">--°</strong></li>
+          <li><span>Humidity</span><strong id="humidity" class="skeleton">--%</strong></li>
+          <li><span>Wind</span><strong id="wind" class="skeleton">-- km/h</strong></li>
+          <li><span>UV</span><strong id="uv" class="skeleton">--</strong></li>
+          <li><span>Sunrise</span><strong id="sunrise" class="skeleton">--</strong></li>
+          <li><span>Sunset</span><strong id="sunset" class="skeleton">--</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="hourly-title">
+      <div class="section-header">
+        <h3 id="hourly-title">Next 24 hours</h3>
+        <div class="legend muted" id="hourly-legend" aria-hidden="true"></div>
+      </div>
+      <div id="hourly" class="hourly scroller">
+        <!-- Hourly items injected here -->
+      </div>
+      <div class="chart-wrap">
+        <canvas id="temp-chart" aria-label="Temperature over next 24 hours" role="img"></canvas>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="daily-title">
+      <h3 id="daily-title">7-day forecast</h3>
+      <div id="daily" class="daily-grid">
+        <!-- Daily tiles injected here -->
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="favorites-title">
+      <div class="section-header">
+        <h3 id="favorites-title">Pinned places</h3>
+        <button id="pin-current" class="btn small">⭐ Pin current</button>
+      </div>
+      <div id="favorites" class="chips">
+        <!-- Favorite chips -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="muted">
+      Data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open‑Meteo</a>. Built as a PWA. Works offline for last viewed place.
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
